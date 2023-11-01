@@ -31,11 +31,18 @@ namespace EmployeeManagement
         {
             if (env.IsDevelopment())
             {
+                DeveloperExceptionPageOptions developerExceptionPageOptions = new DeveloperExceptionPageOptions
+                {
+                    SourceCodeLineCount = 10
+                };
                 app.UseDeveloperExceptionPage();
             }
 
             //************* Option 1 for default and static files *************//
+            app.UseFileServer();
 
+
+            //************* Option 2 for default and static files *************//
             //app.UseDefaultFiles();
             // DefaultFilesOptions defaultFilesOptions=new DefaultFilesOptions();
             //defaultFilesOptions.DefaultFileNames.Clear();
@@ -43,11 +50,13 @@ namespace EmployeeManagement
             //app.UseDefaultFiles(defaultFilesOptions);
             //app.UseStaticFiles();
 
-            //************* Option 2 for default and static files *************//
-            FileServerOptions fileServerOptions = new FileServerOptions();
-            fileServerOptions.DefaultFilesOptions.DefaultFileNames.Clear();
-            fileServerOptions.DefaultFilesOptions.DefaultFileNames.Add("foo.html");
-            app.UseFileServer(fileServerOptions);
+
+
+            //************* Option 3 for default and static files *************//
+            //FileServerOptions fileServerOptions = new FileServerOptions();
+            //fileServerOptions.DefaultFilesOptions.DefaultFileNames.Clear();
+            //fileServerOptions.DefaultFilesOptions.DefaultFileNames.Add("foo.html");
+            //app.UseFileServer(fileServerOptions);
 
 
             app.UseRouting();
@@ -61,13 +70,14 @@ namespace EmployeeManagement
             //    {
             //        await context.Response.WriteAsync(_config["HassanKey"]);
             //    });
-            //});
+            //}); 
 
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/", async context =>
                 {
+                    throw new Exception("some error processing the request");
                     await context.Response.WriteAsync("1st Middle ware");
                 });
             });
