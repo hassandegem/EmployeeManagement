@@ -34,16 +34,44 @@ namespace EmployeeManagement
                 app.UseDeveloperExceptionPage();
             }
 
+            //************* Option 1 for default and static files *************//
+
+            //app.UseDefaultFiles();
+            // DefaultFilesOptions defaultFilesOptions=new DefaultFilesOptions();
+            //defaultFilesOptions.DefaultFileNames.Clear();
+            //defaultFilesOptions.DefaultFileNames.Add("foo.html");
+            //app.UseDefaultFiles(defaultFilesOptions);
+            //app.UseStaticFiles();
+
+            //************* Option 2 for default and static files *************//
+            FileServerOptions fileServerOptions = new FileServerOptions();
+            fileServerOptions.DefaultFilesOptions.DefaultFileNames.Clear();
+            fileServerOptions.DefaultFilesOptions.DefaultFileNames.Add("foo.html");
+            app.UseFileServer(fileServerOptions);
+
+
             app.UseRouting();
+
+            //app.UseAuthentication(); // Must be after UseRouting()
+            //app.UseAuthorization(); // Must be after UseAuthentication()
+
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapGet("/", async context =>
+            //    {
+            //        await context.Response.WriteAsync(_config["HassanKey"]);
+            //    });
+            //});
+
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    //await context.Response.WriteAsync("Hello World!");
-                    await context.Response.WriteAsync(_config["HassanKey"]);
+                    await context.Response.WriteAsync("1st Middle ware");
                 });
             });
+ 
         }
     }
 }
